@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: llm-grpo-trainer
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: trainer
+          image: distributed-llm-rl-post-training-platform:latest
+          resources:
+            limits:
+              nvidia.com/gpu: 1
+          env:
+            - name: TRAINING_BACKEND
+              value: pytorch-fsdp2
+            - name: DISTRIBUTED_BACKEND
+              value: nccl
+            - name: CHECKPOINT_EVERY_STEPS
+              value: "10"

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-rollout-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: llm-rollout-worker
+  template:
+    metadata:
+      labels:
+        app: llm-rollout-worker
+    spec:
+      containers:
+        - name: worker
+          image: distributed-llm-rl-post-training-platform:latest
+          command: ["python", "-m", "rl_platform.cli"]
+          resources:
+            limits:
+              nvidia.com/gpu: 1
+          env:
+            - name: NCCL_DEBUG
+              value: INFO
+            - name: ROLLOUT_BACKEND
+              value: vllm

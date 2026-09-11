@@ -1,0 +1,42 @@
+experiment:
+  name: qwen25-1.5b-gsm8k-grpo
+  model: Qwen/Qwen2.5-1.5B-Instruct
+  dataset: openai/gsm8k
+  train_examples: 1000
+  eval_examples: 200
+  seed: 42
+
+algorithm:
+  name: grpo
+  steps: 90
+  group_size: 8
+  learning_rate: 5.0e-6
+  checkpoint_every_steps: 10
+  lora: true
+  rewards:
+    - exact_match
+    - answer_format
+
+rollout:
+  backend: vllm
+  alternatives: [sglang, tensorrt-llm]
+  max_new_tokens: 512
+
+distributed:
+  runtime: ray
+  alternative_runtimes: [monarch, miles]
+  training_backend: pytorch-fsdp2
+  alternative_training_backend: megatron-lm
+  mixed_precision: bf16
+  tensor_parallel_size: 1
+  pipeline_parallel_size: 1
+  expert_parallel_size: 1
+  collective_backend: nccl
+
+hardware:
+  target_gpu: NVIDIA A100 80GB
+  required_for_reproduction: true
+
+status:
+  benchmark_results_reproduced: false
+  note: "Run the benchmark protocol before publishing exact accuracy or throughput claims."
