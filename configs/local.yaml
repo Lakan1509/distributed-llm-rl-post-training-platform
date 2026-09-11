@@ -1,0 +1,5 @@
+workers: 4
+rollouts_per_prompt: 2
+generation_backend: simulated
+reward_backend: deterministic
+trainer_backend: simulated
