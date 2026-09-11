@@ -1,8 +1,8 @@
 """Small, framework-neutral GRPO math utilities."""
 from __future__ import annotations
 
+from collections.abc import Iterable
 from math import sqrt
-from typing import Iterable
 
 
 def grouped_advantages(rewards: Iterable[float], eps: float = 1e-8) -> list[float]:

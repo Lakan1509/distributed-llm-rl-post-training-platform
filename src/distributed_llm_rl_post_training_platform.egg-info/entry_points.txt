@@ -1,0 +1,2 @@
+[console_scripts]
+rl-posttrain-demo = rl_platform.cli:main
